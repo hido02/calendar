@@ -1,72 +1,48 @@
-const daysTag = document.querySelector(".days"),
-currentDate = document.querySelector(".current-date"),
-prevNextIcon = document.querySelectorAll(".icons span");
+const daysTag = document.querySelector(".days");
+const currentDate = document.querySelector(".current-date");
+const prevNextIcon = document.querySelectorAll(".icons span");
 
-// getting new date, current year and month
-let date = new Date(),
-currYear = date.getFullYear(),
-currMonth = date.getMonth();
+let date = new Date();
+let currYear = date.getFullYear(); // 현재 년도
+let currMonth = date.getMonth(); // 현재 월 (0부터 시작)
+let currDay = date.getDate(); // 현재 일
+let currDayOfWeek = date.getDay(); 
 
-// storing full name of all months in array
 const months = ["January", "February", "March", "April", "May", "June", "July",
               "August", "September", "October", "November", "December"];
 
 const renderCalendar = () => {
-    let firstDayofMonth = new Date(currYear, currMonth, 1).getDay(), // getting first day of month
-    lastDateofMonth = new Date(currYear, currMonth + 1, 0).getDate(), // getting last date of month
-    lastDayofMonth = new Date(currYear, currMonth, lastDateofMonth).getDay(), // getting last day of month
-    lastDateofLastMonth = new Date(currYear, currMonth, 0).getDate(); // getting last date of previous month
+    let firstDayofMonth = new Date(currYear, currMonth, 1).getDay();
+    let lastDateofMonth = new Date(currYear, currMonth + 1, 0).getDate();
+    let lastDayofMonth = new Date(currYear, currMonth, lastDateofMonth).getDay();
+    let lastDateofLastMonth = new Date(currYear, currMonth, 0).getDate();
     let liTag = "";
 
-    for (let i = firstDayofMonth; i > 0; i--) { // creating li of previous month last days
+    for (let i = firstDayofMonth; i > 0; i--) {
         liTag += `<li class="inactive">${lastDateofLastMonth - i + 1}</li>`;
     }
 
     for (let i = 1; i <= lastDateofMonth; i++) {
-        // adding active class to li if the current day, month, and year matched
-        let isToday = i === date.getDate() && currMonth === new Date().getMonth() 
-                     && currYear === new Date().getFullYear() ? "active" : "";
+        let isToday = i === date.getDate() && currMonth === date.getMonth() && currYear === date.getFullYear() ? "active" : "";
         liTag += `<li class="${isToday}">${i}</li>`;
-        if (isToday === "active") {
-            console.log(`Today is ${currYear}-${currMonth + 1}-${i}`);
-        }
     }
 
-    for (let i = lastDayofMonth; i < 6; i++) { // creating li of next month first days
-        liTag += `<li class="inactive">${i - lastDayofMonth + 1}</li>`
+    for (let i = lastDayofMonth; i < 6; i++) {
+        liTag += `<li class="inactive">${i - lastDayofMonth + 1}</li>`;
     }
-    currentDate.innerText = `${months[currMonth]} ${currYear}`; // passing current mon and yr as currentDate text
+    currentDate.innerText = `${months[currMonth]} ${currYear}`;
     daysTag.innerHTML = liTag;
 }
-renderCalendar();
-
-prevNextIcon.forEach(icon => { // getting prev and next icons
-    icon.addEventListener("click", () => { // adding click event on both icons
-        // if clicked icon is previous icon then decrement current month by 1 else increment it by 1
-        currMonth = icon.id === "prev" ? currMonth - 1 : currMonth + 1;
-
-        if(currMonth < 0 || currMonth > 11) { // if current month is less than 0 or greater than 11
-            // creating a new date of current year & month and pass it as date value
-            date = new Date(currYear, currMonth, new Date().getDate());
-            currYear = date.getFullYear(); // updating current year with new date year
-            currMonth = date.getMonth(); // updating current month with new date month
-        } else {
-            date = new Date(); // pass the current date as date value
-        }
-        renderCalendar(); // calling renderCalendar function
-    });
-});
 
 const currentDateElement = document.querySelector(".current-date");
 const daysElement = document.querySelector(".days");
-const miniCalendar = document.getElementById("mini-calendar"); // mini-calendar 요소에 대한 참조를 얻습니다.
+const miniCalendar = document.getElementById("mini-calendar");
 
-const newDate = new Date();
-let currentYear = newDate.getFullYear();
-let currentMonth = newDate.getMonth();
+let currentYear = currYear;
+let currentMonth = currMonth;
 
 function generateCalendar() {
-    currentDateElement.textContent = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(currentDate);
+    currentDateElement.textContent = `${months[currentMonth]} ${currentYear}`;
 
     const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
     const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0);
@@ -78,80 +54,42 @@ function generateCalendar() {
     }
 
     for (let day = 1; day <= lastDayOfMonth.getDate(); day++) {
-        daysElement.innerHTML += `<li>${day}</li>`;
+        daysElement.innerHTML += `<li${day === date.getDate() && currentMonth === date.getMonth() && currentYear === date.getFullYear() ? ' class="active"' : ''}>${day}</li>`;
     }
 }
 
 generateCalendar();
+renderCalendar();
 
-// 월 변경 버튼 클릭 시 달력 갱신
-document.getElementById("prev").addEventListener("click", function() {
-    currentMonth--;
-    if (currentMonth < 0) {
-        currentMonth = 11;
-        currentYear--;
-    }
-    generateCalendar();
-});
+prevNextIcon.forEach(icon => {
+    icon.addEventListener("click", () => {
+        currMonth = icon.id === "prev" ? currMonth - 1 : currMonth + 1;
 
-document.getElementById("next").addEventListener("click", function() {
-    currentMonth++;
-    if (currentMonth > 11) {
-        currentMonth = 0;
-        currentYear++;
-    }
-    generateCalendar();
-});
-
-function createMiniCalendar(selectedDate) {
-    // 이전 내용 초기화
-    const miniCalendarElement = document.getElementById("mini-calendar");
-    miniCalendarElement.innerHTML = '';
-
-    const year = selectedDate.getFullYear();
-    const month = selectedDate.getMonth();
-
-    const miniCalendarHeader = document.createElement("div");
-    miniCalendarHeader.classList.add("mini-calendar-header");
-    miniCalendarHeader.textContent = months[month] + " " + year;
-    miniCalendarElement.appendChild(miniCalendarHeader);
-
-    const prevMonthButton = document.createElement("button");
-    prevMonthButton.textContent = "이전 달";
-    prevMonthButton.addEventListener("click", () => {
-        const prevMonth = new Date(year, month - 1, 1);
-        createMiniCalendar(prevMonth);
-    });
-    miniCalendarHeader.appendChild(prevMonthButton);
-
-    const nextMonthButton = document.createElement("button");
-    nextMonthButton.textContent = "다음 달";
-    nextMonthButton.addEventListener("click", () => {
-        const nextMonth = new Date(year, month + 1, 1);
-        createMiniCalendar(nextMonth);
-    });
-    miniCalendarHeader.appendChild(nextMonthButton);
-
-    const firstDayOfMonth = new Date(year, month, 1);
-    const lastDayOfMonth = new Date(year, month + 1, 0);
-
-    for (let day = 1; day <= lastDayOfMonth.getDate(); day++) {
-        const miniCalendarDay = document.createElement("div");
-        miniCalendarDay.textContent = day;
-        if (
-            day === selectedDate.getDate() &&
-            year === selectedDate.getFullYear() &&
-            month === selectedDate.getMonth()
-        ) {
-            miniCalendarDay.classList.add("selected");
+        if (currMonth < 0 || currMonth > 11) {
+            date = new Date(currYear, currMonth, new Date().getDate());
+            currYear = date.getFullYear();
+            currMonth = date.getMonth();
+        } else {
+            date = new Date();
         }
-        miniCalendarDay.addEventListener("click", function () {
-            // 선택한 날짜를 표시
-            currentDateElement.textContent = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(selectedDate);
-            date = selectedDate;
-            renderCalendar();
-        });
-        miniCalendarElement.appendChild(miniCalendarDay);
-    }
+        renderCalendar();
+        generateMiniCalendar();
+    });
+});
+
+function generateMiniCalendar() {
+    const miniCalendarDate = document.getElementById("date");
+    const miniCalendarDay = document.getElementById("day");
+    const miniCalendarMonth = document.getElementById("month");
+    const miniCalendarYear = document.getElementById("year");
+
+    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const currDayOfWeek = daysOfWeek[new Date(currYear, currMonth, currDay).getDay()];
+
+    miniCalendarDate.innerHTML = currDay; // 일
+    miniCalendarDay.innerHTML = currDayOfWeek; // 요일
+    miniCalendarMonth.innerHTML = months[currMonth]; // 월
+    miniCalendarYear.innerHTML = currYear; // 년
 }
 
+generateMiniCalendar();

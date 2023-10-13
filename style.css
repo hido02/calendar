@@ -7,7 +7,6 @@
   font-family: 'Poppins', sans-serif;
 }
 body{
-  display: flex;
   align-items: center;
   padding: 0 10px;
   justify-content: center;
@@ -15,6 +14,7 @@ body{
   background: #9B59B6;
 }
 .wrapper{
+    margin: 10px 0;
   width: 450px;
   background: #fff;
   border-radius: 10px;
@@ -52,6 +52,7 @@ header .current-date{
   font-weight: 500;
 }
 .calendar{
+    margin: 20px;
   padding: 20px;
 }
 .calendar ul{
@@ -66,6 +67,8 @@ header .current-date{
 .calendar li{
   color: #333;
   width: calc(100% / 7);
+  /* width: calc(100% / 7);는 부모 요소의 가로 너비를 7로 나눈 값으로 설정하겠다는 의미입니다. 이것은 일반적으로 요일 (일요일부터 토요일까지)을 나타내는 요소를 7개로 나누어 균등하게 너비를 설정하거나, 그리드 레이아웃을 사용할 때 사용될 수 있습니다. 이를 통해 화면을 일정한 너비로 분할하거나 그리드를 생성하는 등의 레이아웃 디자인에 활용할 수 있습니다.
+ */
   font-size: 1.07rem;
 }
 .calendar .weeks li{
@@ -92,6 +95,7 @@ header .current-date{
   height: 40px;
   width: 40px;
   z-index: -1;
+  /*z-index: -1;은 해당 요소를 다른 요소들 뒤로 숨기기 위해 사용됩니다. 이것은 요소를 기존의 요소 아래에 두어 해당 요소가 배경 이미지 또는 다른 요소 뒤에 숨는 효과를 만들 때 유용합니다. 예를 들어, 페이지의 배경 이미지 위에 다른 내용을 표시하려면 배경 이미지를 가진 요소에 z-index: -1;를 설정  */
   border-radius: 50%;
   transform: translate(-50%, -50%);
 }
@@ -103,52 +107,49 @@ header .current-date{
 }
 
 .mini-calendar {
-    display: none;
-    border: 1px solid #ccc;
-    width: 200px;
-    background: #fff;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    position: absolute;
-    top: 50px;
-    left: 10px;
-  }
-  
-  .mini-calendar-header {
-    background: #007bff;
-    color: #fff;
-    text-align: center;
-    padding: 5px;
-  }
-  
-  .mini-calendar-title {
-    font-weight: bold;
-  }
-  
-  .mini-calendar-days {
-    list-style: none;
-    display: flex;
-    justify-content: space-between;
-    padding: 5px;
-    background: #f0f0f0;
-  }
-  
-  .mini-calendar-dates {
-    list-style: none;
+    margin-top: 20px;
+}
+.mini-calendar-dates {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    padding: 5px;
-  }
-  
-  .mini-calendar-dates li {
-    text-align: center;
-    padding: 5px;
-    cursor: pointer;
-  }
-  
-  .mini-calendar-dates li.active {
-    background: #007bff;
-    color: #fff;
+}
+.mini-active {
+    background-color: #007BFF;
+    color: white;
     border-radius: 50%;
-  }
+}
+.mini-inactive {
+    color: #D3D3D3;
+}
   
+
+.mini-calendar {
+    width: 300px;
+    height: 250px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+}
+.left, .right {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 24px;
+}
+.right {
+    width: 42%;
+    background: #f4351e;
+    color: white;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+.left {
+    width: 58%;
+}
+#date {
+    font-size: 100px;
+    line-height: 90px;
+}
