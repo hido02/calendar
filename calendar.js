@@ -1,4 +1,5 @@
 var calendar;
+let selectedDate; // 선택한 날짜를 저장할 변수
 
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
@@ -9,7 +10,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         dateClick: function (info) {
             console.log("Clicked event occurs: date = " + info.dateStr);
-            addEventToCalendar({ start: info.dateStr });
+            
+            // 모달을 열 때 선택한 날짜를 저장
+            selectedDate = info.dateStr;
+            
+            const modal = document.getElementById('modal');
+            modal.style.display = 'block';
         },
 
         eventClick: function(info) {
@@ -30,18 +36,21 @@ document.addEventListener('DOMContentLoaded', function() {
     var addEventButton = document.getElementById("add-event");
     addEventButton.addEventListener("click", function() {
         var eventTitle = document.getElementById("event-title").value;
-        var eventDate = document.getElementById("event-date").value;
-
-        if(eventTitle && eventDate) {
+        
+        if(eventTitle && selectedDate) {
             var newEvent = {
                 title: eventTitle,
-                start: eventDate,
-            }
-        };
+                start: selectedDate,
+            };
 
-        calendar.addEvent(newEvent);
-        document.getElementById("event-title").value = "";
-        document.getElementById("event-date").value = "";
+            calendar.addEvent(newEvent);
+            document.getElementById("event-title").value = "";
+            selectedDate = null; // 선택한 날짜 초기화
+            const modal = document.getElementById('modal');
+            modal.style.display = 'none'; // 모달 닫기
+        } else {
+            alert("일정 제목을 입력하세요.");
+        }
     })
 });
 
@@ -52,3 +61,15 @@ function addEventToCalendar(event) {
         console.log("Calendar is not initialized.");
     }
 }
+
+// 모달 닫기 버튼 클릭
+document.getElementById('modal-close').addEventListener('click', function() {
+    const modal = document.getElementById('modal');
+    modal.style.display = 'none';
+});
+
+// 모달 저장 버튼 클릭
+document.getElementById('modal-save').addEventListener('click', function() {
+    const modal = document.getElementById('modal');
+    modal.style.display = 'none';
+});
