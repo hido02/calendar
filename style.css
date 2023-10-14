@@ -153,3 +153,62 @@ header .current-date{
     font-size: 100px;
     line-height: 90px;
 }
+/* Event Form */
+.event-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
+
+#event-date {
+  margin: 10px;
+  padding: 5px;
+}
+
+#event-title {
+  margin: 10px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#add-event {
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#add-event:hover {
+  background-color: #0056b3;
+}
+
+/* Event List */
+.events {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.events h2 {
+  font-size: 1.5rem;
+  margin: 10px 0;
+}
+
+#event-list {
+  list-style: none;
+  padding: 0;
+}
+
+#event-list li {
+  margin: 5px 0;
+  font-size: 1.2rem;
+}
+
