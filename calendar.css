@@ -3,3 +3,12 @@
   width: 500px;
   margin: auto;
 }
+
+#todoContainer {
+  width: 500px;
+  margin: auto;
+}
+
+.calendar-container {
+  margin-bottom: 20px; /* 원하는 간격 크기를 지정하세요. */
+}
