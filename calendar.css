@@ -12,3 +12,17 @@
 .calendar-container {
   margin-bottom: 20px; /* 원하는 간격 크기를 지정하세요. */
 }
+
+#modal {
+  position: fixed; /* 고정 위치 설정 */
+  top: 50%; /* 화면 상단에서 50% 위치에 표시 */
+  left: 50%; /* 화면 왼쪽에서 50% 위치에 표시 */
+  transform: translate(-50%, -50%); /* 화면 중앙 정렬 */
+  background-color: white;
+  width: 300px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 1000; /* 다른 요소 위에 표시 */
+  border-radius: 15px;
+}
+
