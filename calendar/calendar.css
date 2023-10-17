@@ -1,0 +1,191 @@
+#calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    max-width: 300px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+  }
+
+  #header {
+    display: grid;
+    margin: 0 auto;
+  }
+  
+  .day {
+    text-align: center;
+    padding: 10px;
+    background-color: #e0e0e0;
+    border: 2px solid #ccc;
+    display: flex;
+    flex-direction: column; /* 내부 요소를 세로로 정렬하도록 설정 */
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.day:hover {
+    background-color: #a0a0a0;
+    transform: scale(1.05);
+}
+
+  
+  .empty {
+    background-color: #f5f5f5;
+  }
+  
+  #prev-month, #next-month, .delete-event {
+    cursor: pointer;
+    text-align: center;
+    margin: 10px;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+#prev-month:hover, #next-month:hover, .delete-event:hover {
+    background-color: #0056b3;
+}
+
+
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+  }
+  
+  .modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 60%;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
+    position: relative;
+    border-radius: 10px; 
+  }
+  
+  .close {
+    color: #888;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .markup {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgb(108, 108, 255);
+}
+
+#close-add-modal {
+    cursor: pointer;
+    /* 다른 스타일 추가 가능 */
+}
+
+#add-event {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50%;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#add-event:hover {
+    background-color: #0056b3;
+}
+
+#event-list-container {
+    display: flex;
+    justify-content: center;
+}
+
+#event-list {
+    width: 50%;
+    list-style: none;
+    padding: 0;
+}
+
+#event-list li {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#event-list li button {
+    background-color: #ff6b6b;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    padding: 5px 10px;
+    margin-top: 5px;
+}
+
+#event-list li button:hover {
+    background-color: #e94545;
+}
+
+#event-date,
+#event-title,
+#event-description, #save-event {
+    display: block;
+    margin: 10px;
+    padding: 10px;
+    width: calc(100% - 20px); /* 전체 너비에서 여백 제외 */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#event-date {
+  height: 40px;
+}
+
+#save-event {
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#save-event:hover {
+  background-color: #0056b3;
+}
+
+#current-month {
+    font-weight: bold;
+}
+
+
+
+  
+  
+  
