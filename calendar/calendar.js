@@ -10,7 +10,7 @@ const categoryColors = {
     "파티": "#FF9800"
 }
 
-const events = [
+let events = [
     {
         date: new Date(2023, 10, 16), // 이벤트 날짜 (년, 월, 일을 나타내는 Date 객체)
         title: "회의", // 이벤트 제목
@@ -20,6 +20,19 @@ const events = [
     },
     // 다른 이벤트들을 추가할 수 있습니다.
 ];
+
+function saveEventsToLocalStorage() {
+  localStorage.setItem('events', JSON.stringify(events));
+}
+
+function loadEventsFromLocalStorage() {
+  const eventsData = localStorage.getItem('events');
+  console.log("eventsData", eventsData)
+  if(eventsData) {
+    events = JSON.parse(eventsData);
+    console.log("events", events)
+  }
+}
 
 function updateEventList() {
     const eventList = document.getElementById('event-list');
@@ -97,8 +110,6 @@ function updateCalendar() {
             const currentDateString = currentDate.getFullYear() + '-' + (
                 currentDate.getMonth() + 1
             ) + '-' + currentDate.getDate();
-            console.log("이벤트 객체의 date",);
-            console.log("현재 날짜의 date", currentDateString);
 
             const categoryColor = categoryColors[event.category] || "#000";
 
@@ -127,9 +138,13 @@ function updateCalendar() {
 }
 
 function formatDate(date) {
-    return date
-        .toISOString()
-        .split('T')[0];
+  if (date instanceof Date) {
+      return date.toISOString().split('T')[0];
+  } else {
+    console.log("date", date);
+    const dateObject = new Date(date);
+      return formatDate(dateObject);
+  }
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -152,30 +167,40 @@ const nextMonthBtn = document.getElementById("next-month");
 
 // 탐색을 위한 이벤트 리스너
 prevMonthBtn.addEventListener("click", function () {
-  if (currentMonth > 0) {
-      currentMonth--;
-  } else {
-      currentYear--;
-      currentMonth = 11;
-  }
-  updateCalendar();
+    if (currentMonth > 0) {
+        currentMonth--;
+    } else {
+        currentYear--;
+        currentMonth = 11;
+    }
+    updateCalendar();
 });
 
 nextMonthBtn.addEventListener("click", function () {
-  if (currentMonth < 11) {
-      currentMonth++;
-  } else {
-      currentYear++;
-      currentMonth = 0;
-  }
-  updateCalendar();
+    if (currentMonth < 11) {
+        currentMonth++;
+    } else {
+        currentYear++;
+        currentMonth = 0;
+    }
+    updateCalendar();
 });
+
+const closeEditModalBtn = document.getElementById('close-edit-modal');
+console.log(closeEditModalBtn)
+closeEditModalBtn.addEventListener('click', function () {
+    const editEventModal = document.getElementById('edit-event-modal');
+    editEventModal.style.display = 'none';
+})
+
+loadEventsFromLocalStorage();
 
 
     // 이벤트 삭제 함수
     function deleteEvent(index) {
         events.splice(index, 1); // 이벤트 목록에서 제거
         updateEventList(); // 이벤트 목록 업데이트
+        saveEventsToLocalStorage();
         updateCalendar(); // 캘린더 업데이트
     }
 
@@ -246,6 +271,7 @@ nextMonthBtn.addEventListener("click", function () {
 
         // 이벤트 목록 업데이트
         updateEventList();
+        saveEventsToLocalStorage();
 
         // 캘린더 업데이트
         updateCalendar();
@@ -309,7 +335,14 @@ function displayEventDetails(event) {
     const showEventModal = document.getElementById('event-show-modal'); // 추가: 이벤트 모달 업데이트
     const editEventBtn = document.getElementById('edit-event');
 
+    console.log(event.category);
+
+    const categoryColor = categoryColors[event.category] || "#000";
+
+    console.log(categoryColor);
+
     modalCategory.textContent = event.category;
+    modalCategory.style.backgroundColor = categoryColor;
     modalTitle.textContent = event.title;
     modalDescription.textContent = event.description;
     modalDate.textContent = formatDate(event.date);
@@ -322,10 +355,5 @@ function displayEventDetails(event) {
     });
 }
 
-const closeEditModalBtn = document.getElementById('close-edit-modal');
-console.log(closeEditModalBtn)
-closeEditModalBtn.addEventListener('click', function () {
-    const editEventModal = document.getElementById('edit-event-modal');
-    editEventModal.style.display = 'none';
-})
+
 
